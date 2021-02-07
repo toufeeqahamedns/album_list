@@ -1,4 +1,6 @@
 import 'package:album_list/providers/album_provider.dart';
+import 'package:album_list/screens/details_screen.dart';
+import 'package:album_list/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -43,7 +45,11 @@ class AlbumList extends StatelessWidget {
                             placeholder: (_, __) => CircularProgressIndicator(),
                           ),
                           title: Text(albumProvider.albums[index].title),
-                          onTap: () => null),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailsScreen(
+                                      albumProvider.albums[index])))),
                     );
                   });
               break;
@@ -51,6 +57,11 @@ class AlbumList extends StatelessWidget {
               return Center(child: Text("Fetching albums"));
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EditScreen())),
       ),
     );
   }
