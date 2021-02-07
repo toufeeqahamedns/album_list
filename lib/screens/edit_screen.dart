@@ -64,27 +64,20 @@ class _EditScreenState extends State<EditScreen> {
               await albumProvider
                   .addOrEditAlbum(widget.album, albumCoverController.text,
                       albumTitleController.text)
-                  .then(
-                      (_) => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AlbumList())),
+                  .then((_) => handleBackToHome(),
                       onError: (e) =>
                           Scaffold.of(context).showSnackBar(SnackBar(
                             content: Text(e.message),
                           )));
-
-              // try {
-              //   albumProvider.addOrEditAlbum(widget.album,
-              //       albumCoverController.text, albumTitleController.text);
-              //   Navigator.push(context,
-              //       MaterialPageRoute(builder: (context) => AlbumList()));
-              // } catch (e) {
-              //   print(e);
-              //   Scaffold.of(context).showSnackBar(SnackBar(
-              //     content: Text(e.message),
-              //   ));
-              // }
             });
       }),
     );
+  }
+
+  void handleBackToHome() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+      handleBackToHome();
+    }
   }
 }
