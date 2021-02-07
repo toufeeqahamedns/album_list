@@ -43,6 +43,7 @@ class AlbumList extends StatelessWidget {
                           leading: CachedNetworkImage(
                             imageUrl: albumProvider.albums[index].thumbnailUrl,
                             placeholder: (_, __) => CircularProgressIndicator(),
+                            errorWidget: (_, __, ___) => Icon(Icons.error),
                           ),
                           title: Text(albumProvider.albums[index].title),
                           onTap: () => Navigator.push(

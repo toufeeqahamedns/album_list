@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:album_list/models/album.dart';
+import 'package:album_list/providers/album_provider.dart';
+import 'package:album_list/screens/album_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditScreen extends StatefulWidget {
   final Album album;
@@ -51,8 +56,35 @@ class _EditScreenState extends State<EditScreen> {
           ],
         ),
       ),
-      floatingActionButton:
-          FloatingActionButton(child: Icon(Icons.check), onPressed: () => null),
+      floatingActionButton: Consumer(builder:
+          (BuildContext context, AlbumProvider albumProvider, Widget child) {
+        return FloatingActionButton(
+            child: Icon(Icons.check),
+            onPressed: () async {
+              await albumProvider
+                  .addOrEditAlbum(widget.album, albumCoverController.text,
+                      albumTitleController.text)
+                  .then(
+                      (_) => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AlbumList())),
+                      onError: (e) =>
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text(e.message),
+                          )));
+
+              // try {
+              //   albumProvider.addOrEditAlbum(widget.album,
+              //       albumCoverController.text, albumTitleController.text);
+              //   Navigator.push(context,
+              //       MaterialPageRoute(builder: (context) => AlbumList()));
+              // } catch (e) {
+              //   print(e);
+              //   Scaffold.of(context).showSnackBar(SnackBar(
+              //     content: Text(e.message),
+              //   ));
+              // }
+            });
+      }),
     );
   }
 }

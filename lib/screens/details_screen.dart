@@ -20,7 +20,8 @@ class DetailsScreen extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 imageUrl: album.thumbnailUrl,
-                placeholder: (_, __) => CircularProgressIndicator(),
+                placeholder: (BuildContext context, String url) => CircularProgressIndicator(),
+                errorWidget: (_, __, ___) => Icon(Icons.error)
               ),
               SizedBox(
                 height: 16.0,

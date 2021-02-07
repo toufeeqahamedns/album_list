@@ -26,4 +26,40 @@ class AlbumProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> addOrEditAlbum(
+      Album album, String albumCover, String albumTitle) async {
+    if (albumCover.isEmpty) {
+      throw Exception("Album Cover should not be empty");
+    } else if (albumTitle.isEmpty) {
+      throw Exception("Album Title should not be empty");
+    } else {
+      try {
+        if (album != null) {
+          int albumIndexToEdit =
+              _albums.indexWhere((element) => element.id == album.id);
+          _albums[albumIndexToEdit] = Album(
+              albumId: album.id,
+              id: album.id,
+              thumbnailUrl: albumCover,
+              url: albumCover,
+              title: albumTitle);
+          notifyListeners();
+        } else {
+          var currentAlbumLenght = _albums.length;
+          _albums.insert(
+              0,
+              Album(
+                  albumId: 1,
+                  id: currentAlbumLenght + 1,
+                  thumbnailUrl: albumCover,
+                  url: albumCover,
+                  title: albumTitle));
+          notifyListeners();
+        }
+      } catch (e) {
+        throw Exception("Something went wrong!!!");
+      }
+    }
+  }
 }
